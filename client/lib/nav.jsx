@@ -7,14 +7,25 @@ MeteorSite.Nav = {
         href: '/admin'
       },
       {
-        title: 'Users',
+        title: 'Memberships',
         faClass: 'fa-users',
-        href: '/admin/users'
+        href: '/admin/memberships',
+        permittedRoles: ['admin']
       },
       {
-        title: 'Settings',
+        title: function () {
+          var currentOrganization = Meteor.user().currentOrganization(),
+              menuTitle = 'Settings';
+
+          if (currentOrganization) {
+            return currentOrganization.typeName + ' ' + menuTitle;
+          } else {
+            return menuTitle;
+          }
+        },
         faClass: 'fa-cogs',
-        href: '/admin/settings'
+        href: '/admin/settings',
+        permittedRoles: ['admin']
       }
     ]
   },
@@ -27,7 +38,7 @@ MeteorSite.Nav = {
     this._navItems[navName].push(navItem);
   },
 
-  compose(navItems, navName, options) {
+  compose(navItems, navName, menuId, options) {
     if (typeof options === 'undefined') options = {};
 
     var Component = ReactMeteor.createClass({
@@ -53,31 +64,51 @@ MeteorSite.Nav = {
       },
 
       _navItemPermitted(navItem) {
-        if (typeof navItem.permittedRole === 'undefined') return true;
+        if (typeof navItem.permittedRoles === 'undefined') return true;
 
         var user = this.state.currentUser;
 
         return Roles.userIsInRole(
           user,
-          navItem.permittedRole,
+          navItem.permittedRoles,
           user.currentOrganizationId
         );
       },
 
+      _renderNavItems(navItems) {
+        var subMenu, href;
+
+        return _.map(navItems, (navItem, i) => {
+          if (!this._navItemPermitted(navItem)) { return; }
+
+          if (navItem.subMenu) {
+            href    = '#';
+            subMenu = (
+              <ul className={classNames('nav')}>
+                {this._renderNavItems(navItem.subMenu)}
+              </ul>
+            );
+          } else {
+            href    = navItem.href;
+            subMenu = null;
+          }
+
+          return (
+            <li key={i}>
+              <a href={href}>
+                <span className={classNames('fa', navItem.faClass, 'fa-fw')}></span>
+                {_.isFunction(navItem.title) ? navItem.title() : navItem.title}
+              </a>
+              {subMenu}
+            </li>
+          );
+        });
+      },
+
       render() {
         return (
-          <ul className="nav" id="side-menu">
-            {_.map(navItems, (navItem, i) => {
-              if (this._navItemPermitted(navItem)) {
-                return (
-                  <li key={i}>
-                    <a href={navItem.href}>
-                      <i className={classNames('fa', navItem.faClass, 'fa-fw')}></i> {navItem.title}
-                    </a>
-                  </li>
-                );
-              }
-            })}
+          <ul className="nav" id={menuId}>
+            {this._renderNavItems(navItems)}
           </ul>
         );
       }

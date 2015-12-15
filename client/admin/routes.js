@@ -7,7 +7,12 @@ AdminController = RouteController.extend({
   layoutTemplate: 'AdminLayout',
 
   onBeforeAction() {
-    if (Meteor.userId()) {
+    var userIsAdmin = Meteor.userId() && Roles.userIsInRole(
+      Meteor.userId(), 'admin', 
+      Meteor.user().currentOrganizationId
+    );
+
+    if (userIsAdmin) {
       this.next();
     } else {
       this.render('AccessDenied');

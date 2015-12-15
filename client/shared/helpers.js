@@ -5,3 +5,9 @@ Template.registerHelper('currentOrganizationName', function () {
     return '';
   }
 });
+
+Template.registerHelper('currentOrganizationDashboard', function () {
+  if (Meteor.user() && Meteor.user().currentOrganization()) {
+    return Meteor.user().currentOrganization().typeName + 'Dashboard';
+  }
+});

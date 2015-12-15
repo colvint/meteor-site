@@ -156,30 +156,30 @@ ReactMeteor.createClass({
     var ownershipsTab, membershipsTab, invitationsTab;
 
     ownershipsTab = (
-      <ReactBootstrap.TabPane
+      <ReactBootstrap.Tab
         eventKey='ownerships'
-        tab={<TabLabel title="Ownerships" count={this.state.ownerships.length}/>}>
+        title={<TabLabel title="Ownerships" count={this.state.ownerships.length}/>}>
         <OrganizationList
           organizations={this.state.ownerships}/>
-      </ReactBootstrap.TabPane>
+      </ReactBootstrap.Tab>
     );
 
     membershipsTab = (
-      <ReactBootstrap.TabPane
+      <ReactBootstrap.Tab
         eventKey='memberships'
-        tab={<TabLabel title="Memberships" count={this.state.memberships.length}/>}>
+        title={<TabLabel title="Memberships" count={this.state.memberships.length}/>}>
         <OrganizationList
           organizations={this.state.memberships}/>
-      </ReactBootstrap.TabPane>
+      </ReactBootstrap.Tab>
     );
 
     invitationsTab = (
-      <ReactBootstrap.TabPane
+      <ReactBootstrap.Tab
         eventKey='invitations'
-        tab={<TabLabel title="Invitations" count={this.state.invitations.length}/>}>
+        title={<TabLabel title="Invitations" count={this.state.invitations.length}/>}>
         <OrganizationList
           organizations={this.state.invitations}/>
-      </ReactBootstrap.TabPane>
+      </ReactBootstrap.Tab>
     );
 
     return (
@@ -199,14 +199,14 @@ ReactMeteor.createClass({
             Organizations
           </ReactBootstrap.Modal.Header>
           <ReactBootstrap.Modal.Body>
-            <ReactBootstrap.TabbedArea
+            <ReactBootstrap.Tabs
               activeKey={this.state.activeTab}
               onSelect={this.handleTabSelect}
               animation={false}>
               {membershipsTab}
               {ownershipsTab}
               {invitationsTab}
-            </ReactBootstrap.TabbedArea>
+            </ReactBootstrap.Tabs>
           </ReactBootstrap.Modal.Body>
           <ReactBootstrap.Modal.Footer>
             <ReactBootstrap.Button onClick={this.closeModal}>

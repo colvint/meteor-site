@@ -23,7 +23,8 @@ Package.onUse(function(api) {
     'jquery',
     'tracker',
     'templating',
-    'less'
+    'less',
+    'tauruscolvin:collection-manager'
   ], 'client');
 
   api.addFiles([
@@ -77,10 +78,12 @@ Package.onUse(function(api) {
     'client/admin/side-nav.jsx',
     'client/admin/layout.html',
     'client/admin/dashboard/routes.js',
-    'client/admin/dashboard/main.html',
+    'client/admin/dashboard/template.html',
     'client/admin/organizations/routes.js',
     'client/admin/organizations/settings.jsx',
-    'client/admin/organizations/settings.html'
+    'client/admin/organizations/settings.html',
+    'client/admin/organizations/members.html',
+    'client/admin/organizations/membership-manager.jsx',
   ], 'client');
 
   api.addFiles([
