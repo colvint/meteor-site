@@ -48,7 +48,6 @@ Meteor.methods({
 
     Organizations.update(organizationId, {
       $push: {memberIds: userId},
-      $inc: {memberCount: 1},
       $pullAll: {invitationIds: [organizationId]}
     });
 
@@ -71,8 +70,7 @@ Meteor.methods({
         "Unable to remove member.");
 
     Organizations.update(organizationId, {
-      $pullAll: {memberIds: [userId]},
-      $inc: {memberCount: -1}
+      $pullAll: {memberIds: [userId]}
     });
     Meteor.users.update(userId, {
       $pullAll: {organizationIds: [organizationId]}

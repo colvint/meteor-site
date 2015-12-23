@@ -95,7 +95,7 @@ var OrganizationList = ReactMeteor.createClass({
               return (
                 <tr key={i}>
                   <td>{organization.name}</td>
-                  <td>{organization.memberCount}</td>
+                  <td>{organization.memberCount()}</td>
                   <td>{organization.typeName}</td>
                   <td>
                     {membershipControls}
