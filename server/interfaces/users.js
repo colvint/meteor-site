@@ -13,6 +13,7 @@ Meteor.publish("userData", function () {
       {
         fields: {
           username: 1,
+          emails: 1,
           organizationIds: 1,
           invitationIds: 1,
           currentOrganizationId: 1,
@@ -38,6 +39,7 @@ Meteor.publish("memberships", function (user) {
       {
         fields: {
           username: 1,
+          emails: 1,
           organizationIds: 1,
           invitationIds: 1
         }
