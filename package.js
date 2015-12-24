@@ -47,7 +47,8 @@ Package.onUse(function(api) {
     'client/lib/components/current-organization-selector.jsx',
     'client/lib/components/mini-inbox.jsx',
     'client/lib/components/mini-notifier.jsx',
-    'client/lib/components/mini-queue.jsx'
+    'client/lib/components/mini-queue.jsx',
+    'client/lib/components/summary-panel.jsx'
   ], 'client');
 
   api.addFiles([
@@ -107,6 +108,7 @@ Package.onUse(function(api) {
   api.export([
     'Organizations',
     'InboxMessages',
-    'AdminController'
+    'AdminController',
+    'SummaryPanel'
   ]);
 });
