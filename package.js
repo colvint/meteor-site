@@ -24,31 +24,33 @@ Package.onUse(function(api) {
     'tracker',
     'templating',
     'less',
-    'tauruscolvin:collection-manager'
+    'tauruscolvin:collection-manager',
   ], 'client');
 
   api.addFiles([
     'lib/models/users.js',
     'lib/models/organizations.js',
     'lib/models/inbox-messages.js',
-    'lib/models/notifications.js'
+    'lib/models/notifications.js',
+    'lib/models/websites.js',
+    'lib/meteor-site.js',
   ]);
 
   api.addFiles([
     'server/interfaces/users.js',
     'server/interfaces/organizations.js',
     'server/interfaces/inbox-messages.js',
+    'server/interfaces/websites.js',
   ], 'server');
 
   api.addFiles([
-    'client/lib/meteor-site.js',
     'client/lib/subscriptions.js',
     'client/lib/nav.jsx',
     'client/lib/components/current-organization-selector.jsx',
     'client/lib/components/mini-inbox.jsx',
     'client/lib/components/mini-notifier.jsx',
     'client/lib/components/mini-queue.jsx',
-    'client/lib/components/summary-panel.jsx'
+    'client/lib/components/summary-panel.jsx',
   ], 'client');
 
   api.addFiles([
@@ -71,7 +73,7 @@ Package.onUse(function(api) {
     'client/shared/loading.html',
     'client/shared/login-buttons.html',
     'client/shared/not-found.html',
-    'client/shared/top-nav.html'
+    'client/shared/top-nav.html',
   ], 'client');
 
   api.addFiles([
@@ -102,13 +104,15 @@ Package.onUse(function(api) {
 
   api.addFiles([
     'client/stylesheets/metisMenu.css',
-    'client/stylesheets/timeline.css'
+    'client/stylesheets/timeline.css',
   ], 'client', {bare: true});
 
   api.export([
+    'MeteorSite',
     'Organizations',
     'InboxMessages',
     'AdminController',
-    'SummaryPanel'
+    'SummaryPanel',
+    'Websites',
   ]);
 });
