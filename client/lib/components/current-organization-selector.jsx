@@ -183,7 +183,7 @@ ReactMeteor.createClass({
     );
 
     return (
-      <span className='pull-right'>
+      <span>
         <ReactBootstrap.Button
           bsStyle='success'
           onClick={this.openModal}>
