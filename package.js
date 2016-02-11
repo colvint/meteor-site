@@ -1,6 +1,6 @@
 Package.describe({
   name: 'meteor-site',
-  version: '0.0.2',
+  version: '0.0.3',
   summary: '',
   git: '',
   documentation: 'README.md'
@@ -16,8 +16,13 @@ Package.onUse(function(api) {
     'dburles:collection-helpers@1.0.3',
     'tauruscolvin:meteor-react-bootstrap',
     'iron:router',
-    'accounts-base'
+    'accounts-base',
+    'edgee:slingshot@0.7.1',
+    'nilsdannemann:pdfmake@0.1.20',
+    'vsivsi:job-collection@1.3.0',
   ]);
+
+  api.imply('vsivsi:job-collection');
 
   api.use([
     'jquery',
@@ -33,7 +38,9 @@ Package.onUse(function(api) {
     'lib/models/inbox-messages.js',
     'lib/models/notifications.js',
     'lib/models/websites.js',
+    'lib/models/job-queue.js',
     'lib/meteor-site.js',
+    'lib/slingshot.js',
   ]);
 
   api.addFiles([
@@ -51,13 +58,9 @@ Package.onUse(function(api) {
     'client/lib/components/mini-notifier.jsx',
     'client/lib/components/mini-queue.jsx',
     'client/lib/components/summary-panel.jsx',
+    'client/head.html',
+    'client/lib/slingshot.js',
   ], 'client');
-
-  api.addFiles([
-    'client/head.html'
-  ], 'client');
-
-  api.export('MeteorSite', 'client');
 
   api.addFiles([
     'client/compatibility/holder.js',
@@ -114,5 +117,7 @@ Package.onUse(function(api) {
     'AdminController',
     'SummaryPanel',
     'Websites',
+    'TinyMCEUpload',
+    'MeteorSiteJobQueue',
   ]);
 });
