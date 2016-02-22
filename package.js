@@ -53,6 +53,7 @@ Package.onUse(function(api) {
   api.addFiles([
     'client/lib/subscriptions.js',
     'client/lib/nav.jsx',
+    'client/lib/components/login-box.jsx',
     'client/lib/components/current-organization-selector.jsx',
     'client/lib/components/mini-inbox.jsx',
     'client/lib/components/mini-notifier.jsx',
@@ -70,32 +71,26 @@ Package.onUse(function(api) {
 
   api.addFiles([
     'client/shared/helpers.js',
+    'client/shared/login.html',
+    'client/shared/login.js',
     'client/shared/access-denied.html',
-    'client/shared/admin-layout.html',
     'client/shared/error-layout.html',
     'client/shared/loading.html',
-    'client/shared/login-buttons.html',
     'client/shared/not-found.html',
     'client/shared/top-nav.html',
   ], 'client');
 
   api.addFiles([
-    'client/admin/routes.js',
-    'client/admin/side-nav.jsx',
-    'client/admin/layout.html',
-    'client/admin/dashboard/routes.js',
-    'client/admin/dashboard/template.html',
-    'client/admin/organizations/routes.js',
-    'client/admin/organizations/settings.jsx',
-    'client/admin/organizations/settings.html',
-    'client/admin/organizations/members.html',
-    'client/admin/organizations/membership-manager.jsx',
-  ], 'client');
-
-  api.addFiles([
-    'client/website/router.js',
-    'client/website/layout.html',
-    'client/website/home-page.html',
+    'client/routes.js',
+    'client/side-nav.jsx',
+    'client/layout.html',
+    'client/dashboard/routes.js',
+    'client/dashboard/template.html',
+    'client/organizations/routes.js',
+    'client/organizations/settings.jsx',
+    'client/organizations/settings.html',
+    'client/organizations/members.html',
+    'client/organizations/membership-manager.jsx',
   ], 'client');
 
   api.addFiles([

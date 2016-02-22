@@ -1,10 +1,35 @@
-#login-dropdown-list {
-  a.btn {
-    padding: 6px 12px;
-    min-height: 0;
+#login-bg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  background: url(/assets/images/starry-night.jpg) no-repeat;
+  background-size: cover;
+}
+
+#login-box {
+  position: fixed;
+  top: 35%;
+  left: 40%;
+  min-width: 300px;
+  width: auto;
+  height: auto;
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  .or {
+    text-align: center;
   }
-  .dropdown-menu {
-    min-width: 305px;
+  button, input {
+    margin: 7px 0;
   }
 }
 

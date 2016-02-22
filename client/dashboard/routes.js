@@ -1,4 +1,6 @@
 Router.route('/admin', {
+  controller: 'AdminController',
+
   template: function () {
     if (Meteor.user() && Meteor.user().currentOrganization()) {
       return Meteor.user().currentOrganization().typeName + 'Dashboard';

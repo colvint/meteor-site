@@ -8,15 +8,27 @@ AdminController = RouteController.extend({
 
   onBeforeAction() {
     var userIsAdmin = Meteor.userId() && Roles.userIsInRole(
-      Meteor.userId(), 'admin', 
+      Meteor.userId(), 'admin',
       Meteor.user().currentOrganizationId
     );
 
-    if (userIsAdmin) {
+    if (Meteor.userId()) {
       this.next();
     } else {
-      this.render('AccessDenied');
-      this.layout('ErrorLayout');
+      this.redirect('/login');
+    }
+  }
+});
+
+Router.route('/login', {
+  template: 'Login',
+  name: 'login',
+
+  action() {
+    if (Meteor.userId()) {
+      this.redirect('/admin')
+    } else {
+      this.render();
     }
   }
 });
