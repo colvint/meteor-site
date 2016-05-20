@@ -2,6 +2,7 @@ Accounts.onCreateUser((options, user) => {
   user.organizationIds = [];
   user.invitationIds = [];
   if (options.profile) user.profile = options.profile;
+  if (!user.username) user.username = user.emails[0].address;
 
   return user;
 });
@@ -27,14 +28,12 @@ Meteor.publish("userData", function () {
   }
 });
 
-Meteor.publish("memberships", function (user) {
-  if (!user || !user.currentOrganizationId) return this.ready();
-
-  if (Roles.userIsInRole(user, ['admin'], user.currentOrganizationId)) {
+Meteor.publish("memberships", function (organization) {
+  if (this.userId === organization.ownerId) {
     return Meteor.users.find(
       {$or: [
-        {organizationIds: {$in: [user.currentOrganizationId]}},
-        {invitationIds: {$in: [user.currentOrganizationId]}},
+        {organizationIds: {$in: [organization._id]}},
+        {invitationIds: {$in: [organization._id]}},
       ]},
       {
         fields: {

@@ -6,6 +6,12 @@ Package.describe({
   documentation: 'README.md'
 });
 
+Npm.depends({
+  'node-resque': '2.0.5',
+  'pdfmake': '0.1.18',
+  'aws-sdk': '2.3.13',
+})
+
 Package.onUse(function(api) {
   api.versionsFrom('1.2.0.1');
   api.use('ecmascript');
@@ -15,20 +21,19 @@ Package.onUse(function(api) {
     'aldeed:collection2@2.5.0',
     'dburles:collection-helpers@1.0.3',
     'tauruscolvin:meteor-react-bootstrap',
+    'tauruscolvin:meteor-site-tinymce',
+    'tauruscolvin:relations',
     'iron:router',
     'accounts-base',
-    'edgee:slingshot@0.7.1',
     'nilsdannemann:pdfmake@0.1.20',
-    'vsivsi:job-collection@1.3.0',
   ]);
-
-  api.imply('vsivsi:job-collection');
 
   api.use([
     'jquery',
     'tracker',
     'templating',
     'less',
+    'reactive-var',
     'tauruscolvin:collection-manager',
   ], 'client');
 
@@ -37,10 +42,10 @@ Package.onUse(function(api) {
     'lib/models/organizations.js',
     'lib/models/inbox-messages.js',
     'lib/models/notifications.js',
+    'lib/models/web-pages.js',
     'lib/models/websites.js',
-    'lib/models/job-queue.js',
+    'lib/models/jobs.js',
     'lib/meteor-site.js',
-    'lib/slingshot.js',
   ]);
 
   api.addFiles([
@@ -48,6 +53,9 @@ Package.onUse(function(api) {
     'server/interfaces/organizations.js',
     'server/interfaces/inbox-messages.js',
     'server/interfaces/websites.js',
+    'server/interfaces/web-pages.js',
+    'server/interfaces/jobs.js',
+    'server/worker.js',
   ], 'server');
 
   api.addFiles([
@@ -60,7 +68,6 @@ Package.onUse(function(api) {
     'client/lib/components/mini-queue.jsx',
     'client/lib/components/summary-panel.jsx',
     'client/head.html',
-    'client/lib/slingshot.js',
   ], 'client');
 
   api.addFiles([
@@ -83,14 +90,28 @@ Package.onUse(function(api) {
   api.addFiles([
     'client/routes.js',
     'client/side-nav.jsx',
-    'client/layout.html',
+    'client/layouts/default.html',
+    'client/layouts/site-editor.html',
+
+    // dashboard
     'client/dashboard/routes.js',
     'client/dashboard/template.html',
+
+    // organizations
     'client/organizations/routes.js',
     'client/organizations/settings.jsx',
     'client/organizations/settings.html',
-    'client/organizations/members.html',
-    'client/organizations/membership-manager.jsx',
+    'client/organizations/template.html',
+    'client/organizations/my-organizations.jsx',
+    'client/organizations/organization-editor.jsx',
+
+    // cms
+    'client/cms/page-settings.jsx',
+    'client/cms/pages-nav.jsx',
+    'client/cms/component.jsx',
+    'client/cms/web-page-editor.jsx',
+    'client/cms/template.html',
+    'client/cms/routes.js',
   ], 'client');
 
   api.addFiles([
@@ -105,6 +126,12 @@ Package.onUse(function(api) {
     'client/stylesheets/timeline.css',
   ], 'client', {bare: true});
 
+  api.addAssets([
+    'private/fonts/Roboto-Regular.ttf',
+    'private/fonts/Roboto-Medium.ttf',
+    'private/fonts/Roboto-Italic.ttf',
+  ], 'server')
+
   api.export([
     'MeteorSite',
     'Organizations',
@@ -112,7 +139,8 @@ Package.onUse(function(api) {
     'AdminController',
     'SummaryPanel',
     'Websites',
+    'WebPages',
+    'Jobs',
     'TinyMCEUpload',
-    'MeteorSiteJobQueue',
   ]);
 });

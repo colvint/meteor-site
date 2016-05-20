@@ -1,0 +1,23 @@
+<template name="Organizations">
+  <div class="row">
+    <div class="col-md-12">
+      {{> OrganizationsManager}}
+    </div>
+  </div>
+</template>
+
+<template name="OrganizationMembers">
+  <div class="row">
+    <div class="col-md-12">
+      {{> MembershipsManager item=item}}
+    </div>
+  </div>
+</template>
+
+<template name="Organization">
+  <div class="row">
+    <div class="col-xs-12">
+      {{> OrganizationEditor item=item}}
+    </div>
+  </div>
+</template>

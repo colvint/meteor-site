@@ -11,7 +11,7 @@
   -moz-transform: translateX(-50%) translateY(-50%);
   -webkit-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
-  background: url(/assets/images/starry-night.jpg) no-repeat;
+  background: url(/assets/default-theme/images/starry-night.jpg) no-repeat;
   background-size: cover;
 }
 
@@ -69,4 +69,67 @@ td {
 .page-header {
   margin: 25px 0 20px;
   padding-bottom: 15px;
+}
+
+#website-editor {
+  margin-bottom: 15px;
+  overflow: scroll;
+  background-color: white;
+  border: 1px solid #eee;
+  box-shadow: 0px 0px 25px #eee;
+}
+
+.website-controls {
+  margin-top: 20px;
+}
+
+/* the tree node's style */
+.tree-view {
+  overflow-y: hidden;
+  margin-left: 20px;
+  margin-top: 20px;
+  color: #337ab7;
+  .node {
+    cursor: pointer;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .node-label {
+    margin-left: 5px;
+  }
+}
+
+.tree-view_item {
+  margin-bottom: 5px;
+}
+
+/* style for the children nodes container */
+.tree-view_children {
+  margin-left: 16px;
+}
+
+.tree-view_children-collapsed {
+  height: 0px;
+}
+
+.tree-view_arrow {
+  cursor: pointer;
+  margin-right: 6px;
+  display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.tree-view_arrow:after {
+  content: '▾';
+}
+
+/* rotate the triangle to close it */
+.tree-view_arrow-collapsed {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
 }

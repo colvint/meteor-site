@@ -9,36 +9,52 @@ Organizations.allow({
 });
 
 Meteor.methods({
-  'organizations/inviteMember'(userId, organizationId) {
-    var user = Meteor.users.findOne(userId),
+  'organizations/inviteMember'(email, organizationId) {
+    var user = Accounts.findUserByEmail(email), invitedUserId,
         organization = Organizations.findOne(organizationId);
 
+    // potentially sending email below -- so don't block the thread
+    this.unblock();
+
+    // enforce that only the org owner can invite a member
     if (this.userId !== organization.ownerId)
       throw new Meteor.Error('organizations-membership',
         "Only the organization owner can invite a member.");
 
-    if (_.contains(user.organizationIds, organizationId))
+    // create the user if she doesn't exist
+    // user is created w/o a password an cannot login until they set one
+    if (!user) {
+      invitedUserId = Accounts.createUser({email: email});
+      user = Meteor.users.findOne(invitedUserId);
+      Accounts.sendEnrollmentEmail(invitedUserId);
+    } else {
+      invitedUserId = user._id;
+    }
+
+    // enforce not inviting an existing member w/o leaking information regarding membership
+    if (user && (_.contains(user.organizationIds, organizationId) || _.contains(organization.invitationIds, user._id)))
       throw new Meteor.Error('organizations-membership',
-        "Unable to invite member.");
+        "Member has already been invited.");
 
     Organizations.update(organizationId, {
-      $push: {invitationIds: userId}
+      $push: {invitationIds: invitedUserId}
     });
 
-    Meteor.users.update(userId, {
+    Meteor.users.update(invitedUserId, {
       $push: {invitationIds: organizationId}
     });
   },
 
-  'organizations/addMember'(userId, organizationId) {
-    var user = Meteor.users.findOne(userId),
-        organization = Organizations.findOne(organizationId);
+  'organizations/addMember'(newMemberId, organizationId) {
+    var newMember = Meteor.users.findOne(newMemberId),
+        organization = Organizations.findOne(organizationId),
+        newMemberModifier;
 
-    if (this.userId !== organization.ownerId && this.userId !== userId)
+    if (this.userId !== organization.ownerId && this.userId !== newMemberId)
       throw new Meteor.Error('organizations-membership',
         "Only the organization owner or the member can add a member.");
 
-    if (_.contains(user.organizationIds, organizationId))
+    if (_.contains(newMember.organizationIds, organizationId))
       throw new Meteor.Error('organizations-membership',
         "Unable to add member.");
 
@@ -47,33 +63,42 @@ Meteor.methods({
         "This organization is invitation only.");
 
     Organizations.update(organizationId, {
-      $push: {memberIds: userId},
+      $push: {memberIds: newMemberId},
       $pullAll: {invitationIds: [organizationId]}
     });
 
-    Meteor.users.update(userId, {
+    newMemberModifier = {
       $push: {organizationIds: organizationId},
-      $pullAll: {invitationIds: [organizationId]}
-    });
+      $pullAll: {invitationIds: [organizationId]},
+    }
+
+    if (!newMember.currentOrganizationId) {
+      newMemberModifier['$set'] = {
+        currentOrganizationId: organizationId,
+      }
+    }
+
+    Meteor.users.update(newMemberId, newMemberModifier);
   },
 
-  'organizations/removeMember'(userId, organizationId) {
-    var user = Meteor.users.findOne(userId),
-        organization = Organizations.findOne(organizationId);
+  'organizations/removeMember'(memberId, organizationId) {
+    var organization = Organizations.findOne(organizationId);
 
-    if (this.userId !== organization.ownerId && this.userId !== userId)
+    if (this.userId !== organization.ownerId && this.userId !== memberId)
       throw new Meteor.Error('organizations-membership',
         "Only the organization owner or the member can remove a member.");
 
-    if (!_.contains(organization.memberIds, this.userId))
+    if (!_.contains(organization.memberIds, memberId))
       throw new Meteor.Error('organizations-membership',
-        "Unable to remove member.");
+        "Cannot remove -- user is not a member.");
 
     Organizations.update(organizationId, {
-      $pullAll: {memberIds: [userId]}
+      $pullAll: {memberIds: [memberId]}
     });
-    Meteor.users.update(userId, {
-      $pullAll: {organizationIds: [organizationId]}
+
+    Meteor.users.update(memberId, {
+      $pullAll: {organizationIds: [organizationId]},
+      $set: {currentOrganizationId: null},
     });
   }
 });

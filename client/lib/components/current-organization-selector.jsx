@@ -17,14 +17,6 @@ var OrganizationList = ReactMeteor.createClass({
     Meteor.call('users/switchToOrganization', organizationId);
   },
 
-  becomeMember(organizationId) {
-    Meteor.call('organizations/addMember', Meteor.userId(), organizationId);
-  },
-
-  leave(organizationId) {
-    Meteor.call('organizations/removeMember', Meteor.userId(), organizationId);
-  },
-
   render() {
     var membershipControls, joinBtn, leaveBtn, setCurrentBtn, currentBtn;
 
@@ -63,24 +55,6 @@ var OrganizationList = ReactMeteor.createClass({
                     Set Current
                   </ReactBootstrap.Button>
                 )
-              }
-
-              if (_.contains(Meteor.user().invitationIds, organization._id)) {
-                joinBtn = (
-                  <ReactBootstrap.Button bsStyle='info' bsSize='small'
-                    onClick={this.becomeMember.bind(this, organization._id)}>
-                    Join
-                  </ReactBootstrap.Button>
-                );
-              }
-
-              if (_.contains(Meteor.user().organizationIds, organization._id)) {
-                leaveBtn = (
-                  <ReactBootstrap.Button bsStyle='danger' bsSize='small'
-                    onClick={this.leave.bind(this, organization._id)}>
-                    Leave
-                  </ReactBootstrap.Button>
-                );
               }
 
               membershipControls = (

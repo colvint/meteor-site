@@ -7,26 +7,22 @@ MeteorSite.Nav = {
         href: '/admin'
       },
       {
-        title: 'Memberships',
+        title: 'My Organizations',
         faClass: 'fa-users',
-        href: '/admin/memberships',
-        permittedRoles: ['admin']
+        href: '/admin/organizations',
       },
       {
-        title: function () {
-          var currentOrganization = Meteor.user().currentOrganization(),
-              menuTitle = 'Settings';
-
-          if (currentOrganization) {
-            return currentOrganization.typeName + ' ' + menuTitle;
-          } else {
-            return menuTitle;
-          }
-        },
+        title: 'Settings',
         faClass: 'fa-cogs',
         href: '/admin/settings',
         permittedRoles: ['admin']
-      }
+      },
+      {
+        title: 'Content Management',
+        faClass: 'fa-globe',
+        href: '/admin/cms',
+        permittedRoles: ['admin', 'content-manager']
+      },
     ]
   },
 
@@ -59,7 +55,7 @@ MeteorSite.Nav = {
 
       getMeteorState() {
         return {
-          currentUser: Meteor.user()
+          currentUser: (Meteor.user() || {})
         };
       },
 

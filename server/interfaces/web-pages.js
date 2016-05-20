@@ -1,14 +1,14 @@
-Meteor.publish('websites', function (user) {
+Meteor.publish('web-pages', function (user) {
   if (user && user.currentOrganizationId) {
     return [
-      Websites.find({organizationId: user.currentOrganizationId}),
+      WebPages.find({organizationId: user.currentOrganizationId}),
     ];
   } else {
     return this.ready();
   }
 });
 
-Websites.allow({
+WebPages.allow({
   insert(userId, doc) {
     var user = Meteor.users.findOne(userId);
 

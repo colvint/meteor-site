@@ -17,19 +17,46 @@ Router.route('/admin/settings', {
   }
 });
 
-Router.route('/admin/memberships', {
+Router.route('/admin/organizations', {
   controller: 'AdminController',
-  template: 'OrganizationMembers',
-  title: 'Memberships',
-  name: 'organization.memberships',
+  title: 'My Organizations',
+  name: 'organizations',
   parent: 'dashboard',
 
   data: {
-    title: 'Memberships'
+    title: 'My Organizations'
   },
 
   action() {
-    this.render();
+    this.render('Organizations');
+    this.render('CurrentOrganizationSelector', {
+      to: 'page-header-right'
+    });
+  }
+});
+
+Router.route('/admin/organizations/:organizationId', {
+  controller: 'AdminController',
+  name: 'organization.edit',
+  parent: 'organizations',
+
+  title: function () {
+    var organization = Organizations.findOne(this.params.organizationId) || {};
+
+    return organization.label();
+  },
+
+  data: function () {
+    var organization = Organizations.findOne(this.params.organizationId) || {};
+
+    return {
+      item: organization,
+      title: organization.name,
+    };
+  },
+
+  action() {
+    this.render('Organization');
     this.render('CurrentOrganizationSelector', {
       to: 'page-header-right'
     });

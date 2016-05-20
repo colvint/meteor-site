@@ -1,0 +1,83 @@
+{
+  "dependencies": {
+    "aws-sdk": {
+      "version": "2.3.13",
+      "dependencies": {
+        "sax": {
+          "version": "1.1.5"
+        },
+        "xml2js": {
+          "version": "0.4.15"
+        },
+        "xmlbuilder": {
+          "version": "2.6.2",
+          "dependencies": {
+            "lodash": {
+              "version": "3.5.0"
+            }
+          }
+        },
+        "jmespath": {
+          "version": "0.15.0"
+        }
+      }
+    },
+    "node-resque": {
+      "version": "2.0.5",
+      "dependencies": {
+        "ioredis": {
+          "version": "1.15.1",
+          "dependencies": {
+            "bluebird": {
+              "version": "2.10.2"
+            },
+            "debug": {
+              "version": "2.2.0",
+              "dependencies": {
+                "ms": {
+                  "version": "0.7.1"
+                }
+              }
+            },
+            "double-ended-queue": {
+              "version": "2.1.0-0"
+            },
+            "flexbuffer": {
+              "version": "0.0.6"
+            },
+            "lodash": {
+              "version": "3.10.1"
+            }
+          }
+        }
+      }
+    },
+    "pdfmake": {
+      "version": "0.1.18",
+      "dependencies": {
+        "pdfkit": {
+          "version": "0.7.2",
+          "dependencies": {
+            "png-js": {
+              "version": "0.1.1"
+            },
+            "linebreak": {
+              "version": "0.1.2",
+              "dependencies": {
+                "unicode-trie": {
+                  "version": "0.1.2"
+                }
+              }
+            }
+          }
+        },
+        "lodash": {
+          "version": "3.1.0"
+        },
+        "lodash-node": {
+          "version": "3.1.0"
+        }
+      }
+    }
+  }
+}
