@@ -1,19 +1,25 @@
 Router.configure({
   notFoundTemplate: 'NotFound',
   loadingTemplate: 'Loading'
-});
+})
 
 AdminController = RouteController.extend({
   layoutTemplate: 'AdminLayout',
 
   onBeforeAction() {
     if (Meteor.userId()) {
-      this.next();
+      this.next()
     } else {
-      this.redirect('/login');
+      this.redirect('/login')
     }
   }
-});
+})
+
+Router.route('/', {
+  action() {
+    this.redirect('/login')
+  }
+})
 
 Router.route('/login', {
   name: 'login',
@@ -22,7 +28,7 @@ Router.route('/login', {
     if (Meteor.userId()) {
       this.redirect('/admin')
     } else {
-      this.render('Login');
+      this.render('Login')
     }
   }
-});
+})

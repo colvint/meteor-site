@@ -2,26 +2,25 @@ MeteorSite.Nav = {
   _navItems: {
     side: [
       {
-        title: 'Dashboard',
-        faClass: 'fa-dashboard',
+        title: 'Inbox',
+        faClass: 'fa-inbox',
         href: '/admin'
       },
       {
         title: 'My Organizations',
-        faClass: 'fa-users',
+        faClass: 'fa-sitemap',
         href: '/admin/organizations',
+      },
+      {
+        title: 'My Profile',
+        faClass: 'fa-user',
+        href: '/admin/user/profile',
       },
       {
         title: 'Settings',
         faClass: 'fa-cogs',
         href: '/admin/settings',
         permittedRoles: ['admin']
-      },
-      {
-        title: 'Content Management',
-        faClass: 'fa-globe',
-        href: '/admin/cms',
-        permittedRoles: ['admin', 'content-manager']
       },
     ]
   },
@@ -62,13 +61,9 @@ MeteorSite.Nav = {
       _navItemPermitted(navItem) {
         if (typeof navItem.permittedRoles === 'undefined') return true;
 
-        var user = this.state.currentUser;
-
-        return Roles.userIsInRole(
-          user,
-          navItem.permittedRoles,
-          user.currentOrganizationId
-        );
+        return _.some(navItem.permittedRoles, (role) => {
+          return !_.isEmpty(Roles.getGroupsForUser(this.state.currentUser, role))
+        })
       },
 
       _renderNavItems(navItems) {

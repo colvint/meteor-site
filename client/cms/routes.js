@@ -1,22 +1,3 @@
-Router.route('/admin/cms', {
-  controller: 'AdminController',
-  template: 'ContentManager',
-  title: 'Content Management',
-  name: 'admin.cms',
-  parent: 'dashboard',
-
-  data: {
-    title: 'Content Management'
-  },
-
-  action() {
-    this.render();
-    this.render('CurrentOrganizationSelector', {
-      to: 'page-header-right'
-    });
-  }
-});
-
 Router.route('/admin/websites/:websiteId', {
   controller: 'AdminController',
   layoutTemplate: 'SiteEditorLayout',

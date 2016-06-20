@@ -4,7 +4,7 @@ ReactMeteor.createClass({
 
   getMeteorState() {
     return {
-      jobs: Jobs.find({}, {limit: 5}).fetch()
+      jobs: Jobs.find({status: {$in: ["created", "running"]}}, {limit: 5}).fetch()
     }
   },
 
@@ -42,7 +42,7 @@ ReactMeteor.createClass({
             )
           })}
           <li>
-            <a className="text-center" href="#">
+            <a className="text-center" href="/admin">
               <strong>See All Tasks </strong>
               <i className="fa fa-angle-right"></i>
             </a>

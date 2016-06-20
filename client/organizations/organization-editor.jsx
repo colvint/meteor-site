@@ -46,6 +46,81 @@ InviteNewMemberModal = ReactMeteor.createClass({
   }
 });
 
+RolesEditor = ReactMeteor.createClass({
+  displayName: 'RolesEditor',
+
+  getInitialState() {
+    return { show: false, selectedRoles: this.props.user.roles}
+  },
+
+  onShow() {
+    this.setState({show: true})
+  },
+
+  onHide() {
+    this.setState({show: false})
+  },
+
+  handleRoleSelectionChange(groupId, roles) {
+    const selectedRoles = ReactUpdate(this.state.selectedRoles, {
+      $merge: {[groupId]: _.pluck(roles, 'value')}
+    })
+
+    this.setState({selectedRoles: selectedRoles})
+  },
+
+  saveRoles() {
+    Meteor.users.update(this.props.user._id, {$set: {roles: this.state.selectedRoles}})
+    this.onHide()
+  },
+
+  render () {
+    const username = this.props.user.username
+    const organization = Meteor.user().currentOrganization()
+    const typeMembers = organization.type().typeMembers
+
+    return (
+      <ReactBootstrap.Button bsSize='small' onClick={this.onShow}>
+        Edit Roles
+        <ReactBootstrap.Modal show={this.state.show} onHide={this.onHide}>
+          <ReactBootstrap.Modal.Header closeButton>
+            <ReactBootstrap.Modal.Title>
+              Edit {username}&#39;s Roles
+            </ReactBootstrap.Modal.Title>
+          </ReactBootstrap.Modal.Header>
+          <ReactBootstrap.Modal.Body>
+            <form>
+              <div className="form-group">
+                <label className='control-label'>{organization.label()} Roles</label>
+                <ReactSelect
+                  multi
+                  options={MeteorSite.organizationRoleOptions()}
+                  value={this.state.selectedRoles[organization._id]}
+                  onChange={this.handleRoleSelectionChange.bind(this, organization._id)} />
+              </div>
+              {_.map(typeMembers, (typeMember, i) => {
+                return (
+                  <div key={i} className="form-group">
+                    <label className='control-label'>{typeMember.label()} Roles</label>
+                    <ReactSelect
+                      multi
+                      options={MeteorSite.groupTypeRoleOptions()}
+                      value={this.state.selectedRoles[typeMember._id]}
+                      onChange={this.handleRoleSelectionChange.bind(this, typeMember._id)} />
+                  </div>
+                )
+              })}
+              <ReactBootstrap.Button bsStyle="primary" onClick={this.saveRoles}>
+                Save Roles
+              </ReactBootstrap.Button>
+            </form>
+          </ReactBootstrap.Modal.Body>
+        </ReactBootstrap.Modal>
+      </ReactBootstrap.Button>
+    );
+  }
+});
+
 collectionActions = {
   inviteNewMember: {
     title: "Invite New Member",
@@ -67,16 +142,20 @@ MembersManager = CollectionManager.compose(Meteor.users, {
   columns: [
     {cellContent: function (organization) {
       return (
-        <ReactBootstrap.Button
-          bsStyle='danger'
-          bsSize='small'
-          onClick={removeMember.bind(this, organization._id)}>
-          Remove Member
-        </ReactBootstrap.Button>
+        <ReactBootstrap.ButtonGroup>
+          <RolesEditor user={this} />
+          <ReactBootstrap.Button
+            bsStyle='danger'
+            bsSize='small'
+            onClick={removeMember.bind(this, organization._id)}>
+            Remove Member
+          </ReactBootstrap.Button>
+        </ReactBootstrap.ButtonGroup>
       );
     }},
   ],
-  collectionActions: collectionActions
+  collectionActions: collectionActions,
+  hideItemActions: true,
 });
 
 InvitationsManager = CollectionManager.compose(Meteor.users, {

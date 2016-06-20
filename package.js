@@ -38,6 +38,7 @@ Package.onUse(function(api) {
   ], 'client');
 
   api.addFiles([
+    'lib/models/contact.js',
     'lib/models/users.js',
     'lib/models/organizations.js',
     'lib/models/inbox-messages.js',
@@ -46,6 +47,7 @@ Package.onUse(function(api) {
     'lib/models/websites.js',
     'lib/models/jobs.js',
     'lib/meteor-site.js',
+    'lib/collection.js'
   ]);
 
   api.addFiles([
@@ -55,7 +57,6 @@ Package.onUse(function(api) {
     'server/interfaces/websites.js',
     'server/interfaces/web-pages.js',
     'server/interfaces/jobs.js',
-    'server/worker.js',
   ], 'server');
 
   api.addFiles([
@@ -93,9 +94,10 @@ Package.onUse(function(api) {
     'client/layouts/default.html',
     'client/layouts/site-editor.html',
 
-    // dashboard
-    'client/dashboard/routes.js',
-    'client/dashboard/template.html',
+    // inbox
+    'client/inbox/component.jsx',
+    'client/inbox/routes.js',
+    'client/inbox/template.html',
 
     // organizations
     'client/organizations/routes.js',
@@ -104,6 +106,10 @@ Package.onUse(function(api) {
     'client/organizations/template.html',
     'client/organizations/my-organizations.jsx',
     'client/organizations/organization-editor.jsx',
+
+    // users
+    'client/user/routes.js',
+    'client/user/profile-editor.html',
 
     // cms
     'client/cms/page-settings.jsx',
@@ -126,13 +132,9 @@ Package.onUse(function(api) {
     'client/stylesheets/timeline.css',
   ], 'client', {bare: true});
 
-  api.addAssets([
-    'private/fonts/Roboto-Regular.ttf',
-    'private/fonts/Roboto-Medium.ttf',
-    'private/fonts/Roboto-Italic.ttf',
-  ], 'server')
-
   api.export([
+    'Contactable',
+    'ContactSchema',
     'MeteorSite',
     'Organizations',
     'InboxMessages',

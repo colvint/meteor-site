@@ -19,11 +19,10 @@ Jobs.allow({
 })
 
 Jobs.after.insert(function (userId, job) {
-  var queue = new Resque.queue({connection: MeteorSite.Worker.connectionConfig},
-      MeteorSite.Worker.types)
+  var queue = new Resque.queue({connection: Meteor.settings.Redis})
 
   queue.connect(function () {
-    console.log(`\n\nQueueing a ${job.jobType} job...\n\n`)
-    queue.enqueue('reports', job.jobType, job._id)
+    queue.enqueue(job.jobType, job.jobType, job._id)
+    console.log(`Enqueued ${JSON.stringify(job)}`)
   })
 })

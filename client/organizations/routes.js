@@ -3,7 +3,7 @@ Router.route('/admin/settings', {
   template: 'OrganizationSettings',
   title: 'Settings',
   name: 'admin.settings',
-  parent: 'dashboard',
+  parent: 'inbox',
 
   data: {
     title: 'Settings'
@@ -21,7 +21,7 @@ Router.route('/admin/organizations', {
   controller: 'AdminController',
   title: 'My Organizations',
   name: 'organizations',
-  parent: 'dashboard',
+  parent: 'inbox',
 
   data: {
     title: 'My Organizations'
