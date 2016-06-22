@@ -1,8 +1,7 @@
 Router.route('/admin', {
   controller: 'AdminController',
-
-  template: 'Inbox',
   layoutTemplate: 'AdminLayout',
+  template: 'Inbox',
   name: 'inbox',
   title: 'Inbox',
 
