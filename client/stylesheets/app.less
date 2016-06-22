@@ -132,3 +132,29 @@ td {
   -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
+
+.inbox-message {
+  .icon {
+    margin-top: 10px;
+  }
+
+  .controls {
+    width: 70%;
+    text-align: center;
+  }
+
+  .control {
+    display: none;
+    margin-left: 15px;
+  }
+
+  .timestamp {
+    width: 200px;
+  }
+}
+
+a.list-group-item.inbox-message:hover, a.list-group-item.inbox-message:focus {
+  .control {
+    display: inline-block;
+  }
+}
