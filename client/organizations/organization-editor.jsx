@@ -198,11 +198,7 @@ ReactMeteor.createClass({
     var content;
 
     if (this.state.isLoading) {
-      content = (
-        <ReactBootstrap.Alert bsStyle='info'>
-          Loading...
-        </ReactBootstrap.Alert>
-      );
+      content = (<ReactBootstrap.Alert bsStyle='info'>Loading...</ReactBootstrap.Alert>)
     } else {
       content = (
         <ReactBootstrap.Tabs activeKey={this.state.key}
