@@ -37,12 +37,6 @@
   text-align: center;
 }
 
-.inbox-message {
-  border-bottom: 1px solid #e7e7e7;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
 // bootstrap overrides
 .navbar-static-top {
   margin-bottom: 0;
@@ -134,27 +128,29 @@ td {
 }
 
 .inbox-message {
-  .icon {
-    margin-top: 10px;
+  .panel-heading {
+    min-height: 52px;
+  }
+
+  .subject {
+    margin-top: 5px;
   }
 
   .controls {
-    width: 70%;
-    text-align: center;
+    display: none;
+
+    .control {
+      margin-left: 15px;
+    }
   }
 
-  .control {
-    display: none;
-    margin-left: 15px;
+  &:hover, &:focus {
+    .controls {
+      display: inline-block;
+    }
   }
 
   .timestamp {
     width: 200px;
-  }
-}
-
-a.list-group-item.inbox-message:hover, a.list-group-item.inbox-message:focus {
-  .control {
-    display: inline-block;
   }
 }

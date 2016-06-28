@@ -4,7 +4,7 @@ ReactMeteor.createClass({
 
   getMeteorState() {
     return {
-      unreadMessages: InboxMessages.find().fetch()
+      unreadMessages: InboxMessages.find({readByRecipientIds: {$nin: [Meteor.userId()]}}).fetch()
     }
   },
 
@@ -16,29 +16,27 @@ ReactMeteor.createClass({
           <i className="fa fa-caret-down"></i>
         </a>
         <ul className="dropdown-menu dropdown-messages">
-          {_.map(this.state.unreadMessages, (message) => {
+          {_.map(this.state.unreadMessages, (message, i) => {
             return (
-              <li key={message._id} className="inbox-message">
+              <li key={i} className="inbox-message">
                 <a href="#">
-                  <div>
-                    <strong>{message.senderName} says:</strong>
-                    <span className="pull-right text-muted">
-                      <em>{message.sentAt}</em>
-                    </span>
+                  <div className="text-muted">
+                    <em>Sent {moment(message.sentAt).format('llll')}</em>
                   </div>
-                  <div>{String(message.body).substr(0, 75)} ...</div>
+                  <div><strong>From {message.senderName()}:</strong></div>
+                  <div>{String(message.subject).substr(0, 75)} ...</div>
                 </a>
               </li>
-            );
+            )
           })}
           <li>
-            <a className="text-center" href="#">
+            <a className="text-center" href="/admin">
               <strong>Read All Messages </strong>
               <i className="fa fa-angle-right"></i>
             </a>
           </li>
         </ul>
       </li>
-    );
+    )
   }
-});
+})
