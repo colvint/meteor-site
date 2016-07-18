@@ -4,7 +4,7 @@ ReactMeteor.createClass({
 
   getMeteorState() {
     return {
-      unreadMessages: InboxMessages.find({readByRecipientIds: {$nin: [Meteor.userId()]}}).fetch()
+      unreadMessages: InboxMessages.find({readByRecipientIds: {$nin: [Meteor.userId()]}}, {limit: 5}).fetch()
     }
   },
 
